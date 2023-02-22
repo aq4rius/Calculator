@@ -1,0 +1,38 @@
+* {
+  box-sizing: border-box;
+}
+#container {
+  height: 160px;
+  width: 150px;
+  border: 1px solid;
+  padding: 5px;
+}
+#display {
+  height: 30px;
+  width: 100%;
+  border: 1px solid;
+  margin: 5px auto;
+}
+
+#buttons {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, auto);
+  grid-template-rows: repeat(4, auto);
+  margin: 10px auto;
+  grid-gap: 6px;
+  justify-content: space-evenly;
+}
+
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 15px;
+  width: 30px;
+}
+
+.clear {
+  grid-column: 1/5;
+  justify-self: end;
+}
