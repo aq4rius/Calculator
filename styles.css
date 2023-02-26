@@ -2,16 +2,22 @@
   box-sizing: border-box;
 }
 #container {
-  height: 160px;
-  width: 150px;
+  margin: auto;
+  height: 300px;
+  width: 300px;
   border: 1px solid;
-  padding: 5px;
+  padding: 10px;
+  border-radius: 5%;
+  background-color: rgb(115, 138, 80);
 }
 #display {
-  height: 30px;
+  background-color: rgb(179, 185, 181);
+  height: 60px;
   width: 100%;
   border: 1px solid;
-  margin: 5px auto;
+  margin: 10px auto;
+  border-radius: 5%;
+  font-size: 40px;
 }
 
 #buttons {
@@ -25,14 +31,25 @@
 }
 
 .button {
+  background-color: rgb(179, 185, 181);
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 15px;
-  width: 30px;
+  height: 30px;
+  width: 60px;
+  font-size: 20px;
 }
 
 .clear {
+  background-color: red;
   grid-column: 1/5;
   justify-self: end;
+}
+
+.operator {
+  background-color: rgb(179, 185, 181);
+}
+
+.equal {
+  background-color: green;
 }
