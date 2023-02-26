@@ -5,6 +5,8 @@ let secondValue = "";
 let operator = "";
 let clicked = false;
 
+function handleDeleteButtonClick(button) {}
+
 function handleNumberButtonClick(button) {
   if (!clicked) {
     firstValue = firstValue.concat(button.innerText);
@@ -15,9 +17,35 @@ function handleNumberButtonClick(button) {
 }
 
 function handleOperatorButtonClick(button) {
-  if (operator === "") {
+  if (firstValue != "") {
+    if (operator === "") {
+      clicked = true;
+    } else {
+      if (firstValue != "" && secondValue != "" && operator != "") {
+        const result = operate(
+          operator,
+          parseFloat(firstValue),
+          parseFloat(secondValue)
+        );
+        firstValue = `${result}`;
+        secondValue = "";
+      }
+    }
+    operator = button.innerText;
+    if (
+      !output.textContent.includes("+") &&
+      !output.textContent.includes("x") &&
+      !output.textContent.includes("÷")
+    ) {
+      output.textContent += button.innerText;
+    }
     clicked = true;
-  } else {
+  }
+}
+
+function handleEqualsButtonClick() {
+  if (firstValue != "" && secondValue != "" && operator != "") {
+    output.textContent += "=";
     const result = operate(
       operator,
       parseFloat(firstValue),
@@ -25,23 +53,9 @@ function handleOperatorButtonClick(button) {
     );
     firstValue = `${result}`;
     secondValue = "";
+    operator = "";
+    clicked = true;
   }
-  operator = button.innerText;
-  output.textContent += button.innerText;
-  clicked = true;
-}
-
-function handleEqualsButtonClick() {
-  output.textContent += "=";
-  const result = operate(
-    operator,
-    parseFloat(firstValue),
-    parseFloat(secondValue)
-  );
-  firstValue = `${result}`;
-  secondValue = "";
-  operator = "";
-  clicked = true;
 }
 
 function handleClearButtonClick() {
@@ -99,7 +113,12 @@ function operate(operator, a, b) {
       result = multiply(a, b);
       break;
     case "÷":
-      result = divide(a, b);
+      if (b === 0) {
+        output.textContent = "Error!";
+        break;
+      } else {
+        result = divide(a, b);
+      }
       break;
   }
   return result;
