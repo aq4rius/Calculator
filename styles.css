@@ -42,13 +42,12 @@
 
 .delete {
   background-color: red;
-  grid-column: 4/5;
+  grid-column: 3/4;
 }
 
 .clear {
   background-color: rgb(195, 90, 90);
-  grid-column: 3/3;
-  justify-self: end;
+  grid-column: 0/4;
 }
 
 .operator {

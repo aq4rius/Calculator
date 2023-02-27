@@ -5,15 +5,61 @@ let secondValue = "";
 let operator = "";
 let clicked = false;
 
-function handleDeleteButtonClick(button) {}
+function handleDeleteButtonClick() {
+  let text = output.textContent;
+  if (
+    !output.textContent.includes("+") &&
+    !output.textContent.includes("x") &&
+    !output.textContent.includes("÷") &&
+    !output.textContent.includes("-")
+  ) {
+    output.textContent = text.slice(0, -1);
+    firstValue = output.textContent;
+  } else if (
+    output.textContent[output.textContent.length - 1] === "+" ||
+    output.textContent[output.textContent.length - 1] === "-" ||
+    output.textContent[output.textContent.length - 1] === "x" ||
+    output.textContent[output.textContent.length - 1] === "÷"
+  ) {
+    output.textContent = text.slice(0, -1);
+    operator = "";
+  } else if (output.textContent.includes("+")) {
+    output.textContent = text.slice(0, -1);
+    let index = output.textContent.indexOf("+");
+    let text2 = output.textContent;
+    secondValue = text2.slice(index + 1);
+    console.log(secondValue);
+  } else if (output.textContent.includes("-")) {
+    output.textContent = text.slice(0, -1);
+    let index = output.textContent.indexOf("-");
+    let text2 = output.textContent;
+    secondValue = text2.slice(index + 1);
+    console.log(secondValue);
+  } else if (output.textContent.includes("x")) {
+    output.textContent = text.slice(0, -1);
+    let index = output.textContent.indexOf("x");
+    let text2 = output.textContent;
+    secondValue = text2.slice(index + 1);
+    console.log(secondValue);
+  } else if (output.textContent.includes("÷")) {
+    output.textContent = text.slice(0, -1);
+    let index = output.textContent.indexOf("÷");
+    let text2 = output.textContent;
+    secondValue = text2.slice(index + 1);
+    console.log(secondValue);
+  }
+  if (output.textContent === "") {
+    handleClearButtonClick();
+  }
+}
 
 function handleNumberButtonClick(button) {
+  output.textContent += button.innerText;
   if (!clicked) {
     firstValue = firstValue.concat(button.innerText);
   } else {
     secondValue = secondValue.concat(button.innerText);
   }
-  output.textContent += button.innerText;
 }
 
 function handleOperatorButtonClick(button) {
@@ -40,6 +86,9 @@ function handleOperatorButtonClick(button) {
       output.textContent += button.innerText;
     }
     clicked = true;
+  } else if (button.innerText === "-") {
+    output.textContent += button.innerText;
+    firstValue = output.textContent;
   }
 }
 
@@ -72,6 +121,8 @@ buttons.forEach((button) => {
       handleNumberButtonClick(button);
     } else if (["+", "-", "x", "÷"].includes(button.innerText)) {
       handleOperatorButtonClick(button);
+    } else if (button.innerText === "Delete") {
+      handleDeleteButtonClick();
     } else if (button.innerText === "=") {
       handleEqualsButtonClick();
     } else if (button.innerText === "C") {
@@ -115,6 +166,9 @@ function operate(operator, a, b) {
     case "÷":
       if (b === 0) {
         output.textContent = "Error!";
+        setTimeout(() => {
+          handleClearButtonClick();
+        }, "1000");
         break;
       } else {
         result = divide(a, b);
