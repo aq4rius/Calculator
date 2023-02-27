@@ -24,8 +24,8 @@ function handleDeleteButtonClick() {
   let text = output.textContent;
   if (
     !output.textContent.includes("+") &&
-    !output.textContent.includes("x") &&
-    !output.textContent.includes("÷") &&
+    !output.textContent.includes("*") &&
+    !output.textContent.includes("/") &&
     !output.textContent.includes("-")
   ) {
     output.textContent = text.slice(0, -1);
@@ -33,8 +33,8 @@ function handleDeleteButtonClick() {
   } else if (
     output.textContent[output.textContent.length - 1] === "+" ||
     output.textContent[output.textContent.length - 1] === "-" ||
-    output.textContent[output.textContent.length - 1] === "x" ||
-    output.textContent[output.textContent.length - 1] === "÷"
+    output.textContent[output.textContent.length - 1] === "*" ||
+    output.textContent[output.textContent.length - 1] === "/"
   ) {
     output.textContent = text.slice(0, -1);
     operator = "";
@@ -50,15 +50,15 @@ function handleDeleteButtonClick() {
     let text2 = output.textContent;
     secondValue = text2.slice(index + 1);
     console.log(secondValue);
-  } else if (output.textContent.includes("x")) {
+  } else if (output.textContent.includes("*")) {
     output.textContent = text.slice(0, -1);
-    let index = output.textContent.indexOf("x");
+    let index = output.textContent.indexOf("*");
     let text2 = output.textContent;
     secondValue = text2.slice(index + 1);
     console.log(secondValue);
-  } else if (output.textContent.includes("÷")) {
+  } else if (output.textContent.includes("/")) {
     output.textContent = text.slice(0, -1);
-    let index = output.textContent.indexOf("÷");
+    let index = output.textContent.indexOf("/");
     let text2 = output.textContent;
     secondValue = text2.slice(index + 1);
     console.log(secondValue);
@@ -96,8 +96,8 @@ function handleOperatorButtonClick(button) {
     operator = button.innerText;
     if (
       !output.textContent.includes("+") &&
-      !output.textContent.includes("x") &&
-      !output.textContent.includes("÷")
+      !output.textContent.includes("*") &&
+      !output.textContent.includes("/")
     ) {
       output.textContent += button.innerText;
     }
@@ -135,7 +135,7 @@ buttons.forEach((button) => {
   button.addEventListener("click", () => {
     if (/[0-9]/.test(button.innerText)) {
       handleNumberButtonClick(button);
-    } else if (["+", "-", "x", "÷"].includes(button.innerText)) {
+    } else if (["+", "-", "*", "/"].includes(button.innerText)) {
       handleOperatorButtonClick(button);
     } else if (button.innerText === ".") {
       handleDotButtonClick(button);
@@ -143,32 +143,57 @@ buttons.forEach((button) => {
       handleDeleteButtonClick();
     } else if (button.innerText === "=") {
       handleEqualsButtonClick();
-    } else if (button.innerText === "C") {
+    } else if (button.innerText === "c") {
       handleClearButtonClick();
     }
   });
 });
 
+document.addEventListener("keydown", handleKeyboardInput);
+
+function handleKeyboardInput(e) {
+  console.log(e.key);
+  if (/[0-9]/.test(e.key)) {
+    handleNumberButtonClick({ innerText: e.key });
+  } else if (["+", "-", "*", "/"].includes(e.key)) {
+    handleOperatorButtonClick({ innerText: e.key });
+  } else if (e.key === ".") {
+    handleDotButtonClick({ innerText: e.key });
+  } else if (e.key === "Backspace") {
+    handleDeleteButtonClick();
+  } else if (e.key === "=") {
+    handleEqualsButtonClick();
+  } else if (e.key === "c") {
+    handleClearButtonClick();
+  }
+}
+
 function add(a, b) {
   let result = a + b;
-  result = parseFloat(result.toFixed(12));
+  result = parseFloat(result.toFixed(11));
   output.textContent = result;
   return result;
 }
 
 function subtract(a, b) {
-  output.textContent = `${a - b}`;
-  return a - b;
+  let result = a - b;
+  result = parseFloat(result.toFixed(11));
+  output.textContent = result;
+  return result;
 }
 
 function multiply(a, b) {
-  output.textContent = `${a * b}`;
-  return a * b;
+  let result = a * b;
+  result = parseFloat(result.toFixed(11));
+  output.textContent = result;
+  return result;
 }
 
 function divide(a, b) {
-  output.textContent = `${a / b}`;
-  return a / b;
+  let result = a / b;
+  result = parseFloat(result.toFixed(11));
+  output.textContent = result;
+  return result;
 }
 
 function operate(operator, a, b) {
@@ -180,10 +205,10 @@ function operate(operator, a, b) {
     case "-":
       result = subtract(a, b);
       break;
-    case "x":
+    case "*":
       result = multiply(a, b);
       break;
-    case "÷":
+    case "/":
       if (b === 0) {
         output.textContent = "Error!";
         setTimeout(() => {
