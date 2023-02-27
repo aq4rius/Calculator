@@ -5,6 +5,21 @@ let secondValue = "";
 let operator = "";
 let clicked = false;
 
+function handleDotButtonClick(button) {
+  if (clicked && secondValue.includes(".")) {
+    return;
+  }
+  if (!clicked && firstValue.includes(".")) {
+    return;
+  }
+  output.textContent += button.innerText;
+  if (!clicked) {
+    firstValue += button.innerText;
+  } else {
+    secondValue += button.innerText;
+  }
+}
+
 function handleDeleteButtonClick() {
   let text = output.textContent;
   if (
@@ -54,10 +69,11 @@ function handleDeleteButtonClick() {
 }
 
 function handleNumberButtonClick(button) {
-  output.textContent += button.innerText;
-  if (!clicked) {
+  if (!clicked && output.textContent.length < 12) {
+    output.textContent += button.innerText;
     firstValue = firstValue.concat(button.innerText);
-  } else {
+  } else if (output.textContent.length < 12) {
+    output.textContent += button.innerText;
     secondValue = secondValue.concat(button.innerText);
   }
 }
@@ -121,6 +137,8 @@ buttons.forEach((button) => {
       handleNumberButtonClick(button);
     } else if (["+", "-", "x", "÷"].includes(button.innerText)) {
       handleOperatorButtonClick(button);
+    } else if (button.innerText === ".") {
+      handleDotButtonClick(button);
     } else if (button.innerText === "Delete") {
       handleDeleteButtonClick();
     } else if (button.innerText === "=") {
@@ -132,8 +150,10 @@ buttons.forEach((button) => {
 });
 
 function add(a, b) {
-  output.textContent = `${a + b}`;
-  return a + b;
+  let result = a + b;
+  result = parseFloat(result.toFixed(12));
+  output.textContent = result;
+  return result;
 }
 
 function subtract(a, b) {
